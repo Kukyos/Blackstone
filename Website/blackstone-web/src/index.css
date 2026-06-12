@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: theme('fontFamily.sans');
+    background-color: theme('colors.bs.black');
+    color: theme('colors.bs.bone');
+    overflow-x: hidden;
+  }
+  ::selection {
+    background-color: theme('colors.bs.gold');
+    color: theme('colors.bs.black');
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: theme('colors.bs.black');
+  }
+  ::-webkit-scrollbar-thumb {
+    background: theme('colors.bs.shaft');
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.bs.ember');
+  }
+}
+
+@layer components {
+  .text-gold-sheen {
+    background-image: theme('backgroundImage.gold-sheen');
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .eyebrow {
+    @apply font-mono text-[10px] uppercase tracking-widest-plus text-bs-gold;
+  }
+}
