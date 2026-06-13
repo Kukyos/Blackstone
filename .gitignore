@@ -40,3 +40,6 @@ coverage/
 
 # ── Claude Code workspace (do not commit) ──────────────────────────
 .claude/
+
+# ── Sibling project — not part of Blackstone ───────────────────────
+formfill-assist/

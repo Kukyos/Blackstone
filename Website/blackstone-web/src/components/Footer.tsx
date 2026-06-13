@@ -5,11 +5,11 @@ const COLUMNS = [
   {
     heading: 'Lineup',
     links: [
-      { to: '/models',   label: 'Passenger Lifts' },
-      { to: '/models',   label: 'Home Elevators' },
-      { to: '/models',   label: 'Hospital Lifts' },
-      { to: '/models',   label: 'Goods & Freight' },
-      { to: '/models',   label: 'Panoramic Glass' },
+      { to: '/services', label: 'Passenger Lifts' },
+      { to: '/services', label: 'Home Elevators' },
+      { to: '/services', label: 'Hospital Lifts' },
+      { to: '/services', label: 'Goods & Freight' },
+      { to: '/services', label: 'Panoramic Glass' },
     ],
   },
   {
@@ -76,9 +76,9 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3 font-sans text-sm">
                 <Mail size={14} strokeWidth={1.5} className="text-bs-gold/70 shrink-0" />
-                <Link to="/contact" className="text-bs-bone/80 hover:text-bs-gold transition-colors">
-                  Send an enquiry
-                </Link>
+                <a href="mailto:blackstoneelevators@gmail.com" className="text-bs-bone/80 hover:text-bs-gold transition-colors">
+                  blackstoneelevators@gmail.com
+                </a>
               </li>
               <li className="flex items-center gap-3 font-sans text-sm">
                 <Hash size={14} strokeWidth={1.5} className="text-bs-gold/70 shrink-0" />

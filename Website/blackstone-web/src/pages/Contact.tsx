@@ -614,7 +614,7 @@ function Confirmation({ data, onReset }: { data: FormState; onReset: () => void 
 
 function SideInfo() {
   return (
-    <section className="mt-20 md:mt-28 grid md:grid-cols-3 gap-px bg-bs-shaft/60 border border-bs-shaft/60 rounded-sm overflow-hidden">
+    <section className="mt-20 md:mt-28 grid md:grid-cols-4 gap-px bg-bs-shaft/60 border border-bs-shaft/60 rounded-sm overflow-hidden">
       <InfoTile icon={MapPin} title="Address">
         Plot No. 6, T V Nagar,<br />
         Mugalivakkam, Manapakkam,<br />
@@ -626,6 +626,11 @@ function SideInfo() {
         </a>
         <br />
         <span className="text-bs-bone/50">Mon – Sat · 9:30 to 18:30</span>
+      </InfoTile>
+      <InfoTile icon={Mail} title="Email">
+        <a href="mailto:blackstoneelevators@gmail.com" className="hover:text-bs-gold transition-colors break-words">
+          blackstoneelevators<br />@gmail.com
+        </a>
       </InfoTile>
       <InfoTile icon={Hash} title="GST">
         33AAVFB2091D1ZK<br />

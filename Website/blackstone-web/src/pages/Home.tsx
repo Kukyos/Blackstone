@@ -3,6 +3,12 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import Hero from '@/components/Hero';
 import LiftDoors from '@/components/LiftDoors';
+import TrustStrip from '@/components/home/TrustStrip';
+import FeaturedLineup from '@/components/home/FeaturedLineup';
+import ServicesTeaser from '@/components/home/ServicesTeaser';
+import ProcessStrip from '@/components/home/ProcessStrip';
+import WorkshopBand from '@/components/home/WorkshopBand';
+import ClosingCTA from '@/components/home/ClosingCTA';
 import liftBixi from '@/assets/lift-bixi.jpg';
 
 export default function Home() {
@@ -26,7 +32,7 @@ export default function Home() {
             Glass-walled. Compact. Built for the modern home — without ripping out a wall.
           </p>
           <Link
-            to="/models"
+            to="/services"
             className="inline-flex items-center gap-2 px-8 py-3 border border-bs-gold/70 text-bs-gold font-mono text-[10px] uppercase tracking-widest-plus hover:bg-bs-gold hover:text-bs-black transition-colors"
           >
             See the Lineup <ArrowRight size={12} strokeWidth={1.5} />
@@ -34,14 +40,12 @@ export default function Home() {
         </div>
       </LiftDoors>
 
-      <section className="min-h-[40vh] flex items-center justify-center border-t border-bs-shaft">
-        <div className="text-center px-6">
-          <p className="eyebrow mb-4">Up Next</p>
-          <p className="font-display text-3xl text-bs-bone/60">
-            Services, testimonials, contact
-          </p>
-        </div>
-      </section>
+      <TrustStrip />
+      <FeaturedLineup />
+      <ServicesTeaser />
+      <ProcessStrip />
+      <WorkshopBand />
+      <ClosingCTA />
     </motion.div>
   );
 }
