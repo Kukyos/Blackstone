@@ -47,16 +47,18 @@ export default function Navbar() {
           p-1 md:p-1.5 max-w-[96vw]
         `}
       >
-        {/* Brand wordmark on the left — clean and readable at navbar scale */}
+        {/* Brand wordmark on the left — clean and readable at navbar scale.
+            items-center + matched leading keeps the italic glyphs visually
+            centered against the round nav-icon row to the right. */}
         <Link
           to="/"
           aria-label="Blackstone Elevators home"
-          className="flex items-baseline gap-1.5 md:gap-2 h-10 md:h-11 px-3 md:px-5 border-r border-bs-shaft/80 group"
+          className="flex items-center gap-1.5 md:gap-2 h-11 px-3 md:px-5 border-r border-bs-shaft/80 group"
         >
-          <span className="font-display italic text-xl md:text-2xl leading-none text-bs-gold group-hover:text-bs-champagne transition-colors">
+          <span className="font-display italic text-xl md:text-2xl leading-[1] -mt-[2px] text-bs-gold group-hover:text-bs-champagne transition-colors">
             Blackstone
           </span>
-          <span className="hidden md:inline font-sans text-[8px] uppercase tracking-widest-plus text-bs-bone/60 group-hover:text-bs-bone/80 transition-colors">
+          <span className="hidden md:inline font-sans text-[8px] uppercase tracking-widest-plus leading-none text-bs-bone/60 group-hover:text-bs-bone/80 transition-colors">
             Elevators
           </span>
         </Link>

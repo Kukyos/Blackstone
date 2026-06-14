@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import CableField from './CableField';
 import Crosshairs from './Crosshairs';
+import useDevicePerf from '@/hooks/useDevicePerf';
 
 export default function Hero() {
   const { scrollY } = useScroll();
   const textY = useTransform(scrollY, [0, 500], [0, 80]);
   const textOpacity = useTransform(scrollY, [0, 350], [1, 0]);
+  const { isHeavyOk } = useDevicePerf();
 
   return (
     <section className="relative min-h-[100dvh] w-full flex flex-col items-center justify-center overflow-hidden">
@@ -17,7 +19,24 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-bs-black/40 to-bs-black" />
       </div>
 
-      <CableField />
+      {/* Heavy canvas animation — desktop / non-reduced-motion only. Mobile and
+          weak devices get a static gradient + ambient orbs via the layers above
+          plus the static fallback below. */}
+      {isHeavyOk ? (
+        <CableField />
+      ) : (
+        // Lightweight static "cable" illusion — a few CSS-gradient vertical bars.
+        // Costs nothing at runtime and still gives the hero a sense of depth.
+        <div className="absolute inset-0 pointer-events-none opacity-70" aria-hidden>
+          {[12, 28, 44, 60, 76, 92].map(left => (
+            <div
+              key={left}
+              className="absolute top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-bs-gold/20 to-transparent"
+              style={{ left: `${left}%` }}
+            />
+          ))}
+        </div>
+      )}
       <Crosshairs />
 
       {/* Hero content */}

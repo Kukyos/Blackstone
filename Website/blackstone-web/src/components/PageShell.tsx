@@ -1,24 +1,34 @@
 import { motion } from 'framer-motion';
 import type { ReactNode } from 'react';
+import AmbientField from './AmbientField';
 
 interface Props {
   eyebrow: string;
   title: ReactNode;
   intro?: ReactNode;
   children: ReactNode;
+  /** Set false on pages that supply their own backdrop (e.g. Contact's panel). */
+  ambient?: boolean;
 }
 
 // Standard interior-page wrapper: top spacing to clear the floating navbar,
-// animated header, then the page's main content.
-export default function PageShell({ eyebrow, title, intro, children }: Props) {
+// animated header, then the page's main content. An AmbientField sits behind
+// content by default — interior pages used to feel "too static" without it.
+export default function PageShell({ eyebrow, title, intro, children, ambient = true }: Props) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="relative pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto"
-    >
+    <div className="relative">
+      {ambient && (
+        <div className="fixed inset-0 -z-10">
+          <AmbientField />
+        </div>
+      )}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+        className="relative pt-32 md:pt-40 pb-24 px-6 md:px-12 lg:px-20 max-w-7xl mx-auto"
+      >
       <header className="mb-16 md:mb-24 max-w-4xl">
         <motion.p
           initial={{ opacity: 0, y: 10 }}
@@ -48,6 +58,7 @@ export default function PageShell({ eyebrow, title, intro, children }: Props) {
         )}
       </header>
       {children}
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }

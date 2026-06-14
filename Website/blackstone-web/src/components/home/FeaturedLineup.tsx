@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Building2, PackageOpen, Wrench, type LucideIcon } from 'lucide-react';
-import bixiImg from '@/assets/lift-bixi.jpg';
+// Real install photo replaces the placeholder. Glass-walled residential lift —
+// what most home-elevator enquiries actually look like.
+import homeLiftImg from '@/assets/installations/glass-residential-lift.jpg';
 
 type LineupCard = {
   name: string;
@@ -22,9 +24,9 @@ const LINEUP: LineupCard[] = [
     name: 'Home Elevators',
     tagline: 'Compact. Glass-walled. Made for the modern villa.',
     spec: 'G+4 · 4–6 person · gearless',
-    photo: bixiImg,
+    photo: homeLiftImg,
     accent: 'from-bs-gold/30 to-transparent',
-    link: '/services',
+    link: '/models',
   },
   {
     name: 'Hospital Lifts',

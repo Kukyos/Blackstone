@@ -3,8 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Phone, MapPin, Mail, Hash, ArrowRight, ArrowLeft, Check, Send,
   User, Building2, Clock, Layers, Weight, Calendar, MessageSquareText,
-  ChevronRight,
+  ChevronRight, PhoneCall,
 } from 'lucide-react';
+// Atmospheric backdrop — onyx-and-gold install photo used at low opacity
+// behind the page header to anchor the page in real Blackstone work.
+import contactBackdrop from '@/assets/installations/gold-cabin-mandala.jpg';
 
 /* ──────────────────────────────────────────────────────────────────── */
 /*  TYPES                                                                */
@@ -107,17 +110,36 @@ export default function Contact() {
       transition={{ duration: 0.5 }}
       className="relative pt-32 md:pt-40 pb-24 px-4 md:px-12 lg:px-20 max-w-7xl mx-auto"
     >
-      {/* Page header */}
-      <header className="mb-12 md:mb-20 max-w-4xl">
-        <p className="eyebrow mb-6">Call the Lift</p>
-        <h1 className="font-display italic text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-gold-sheen animate-shimmer">
-          Enquire
-        </h1>
-        <p className="mt-10 md:mt-14 font-sans text-base md:text-lg text-bs-bone/75 leading-relaxed max-w-2xl">
-          Five short stops between you and a real quote. Press a floor to begin —
-          our team replies to every enquiry within one working day.
-        </p>
+      {/* Page header — paired with a small framed install thumbnail */}
+      <header className="mb-10 md:mb-16 grid md:grid-cols-[1fr_auto] gap-8 md:gap-12 items-end">
+        <div className="max-w-3xl">
+          <p className="eyebrow mb-6">Call the Lift</p>
+          <h1 className="font-display italic text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-gold-sheen animate-shimmer">
+            Enquire
+          </h1>
+          <p className="mt-10 md:mt-14 font-sans text-base md:text-lg text-bs-bone/75 leading-relaxed max-w-2xl">
+            Five short stops between you and a real quote — or, if you'd rather, just
+            drop us your number and we'll call you. Either way, our team replies within
+            one working day.
+          </p>
+        </div>
+        {/* Atmospheric thumbnail — desktop only */}
+        <div className="hidden md:block relative w-[280px] lg:w-[340px] aspect-[4/5] overflow-hidden rounded-sm border border-bs-shaft">
+          <img
+            src={contactBackdrop}
+            alt="Blackstone cabin interior"
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-bs-black/80 via-transparent to-transparent" />
+          <div className="absolute bottom-3 left-3 font-mono text-[9px] uppercase tracking-widest text-bs-gold/90 bg-bs-black/60 backdrop-blur-sm px-2 py-1 rounded-sm">
+            Recent cabin · Chennai
+          </div>
+        </div>
       </header>
+
+      {/* "Just call me" quick callback — the low-friction path */}
+      <QuickCallback />
 
       {/* The two-panel control room */}
       <div className="grid md:grid-cols-[280px_1fr] lg:grid-cols-[320px_1fr] gap-6 lg:gap-8">
@@ -150,6 +172,152 @@ export default function Contact() {
       {/* Side rail info — visible on every step, below on mobile */}
       <SideInfo />
     </motion.div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────── */
+/*  QUICK CALLBACK — the "just call me" low-friction path                */
+/* ──────────────────────────────────────────────────────────────────── */
+
+function QuickCallback() {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [err, setErr] = useState('');
+  const [state, setState] = useState<'idle' | 'sending' | 'sent'>('idle');
+
+  const send = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmedName = name.trim();
+    const trimmedPhone = phone.trim();
+    if (!trimmedName) { setErr('Tell us your name'); return; }
+    if (!/^[+\d\s\-()]{8,}$/.test(trimmedPhone)) { setErr('Phone number please'); return; }
+    setErr('');
+    setState('sending');
+    // No backend yet — log so we can see the payload during development.
+    // eslint-disable-next-line no-console
+    console.log('[Blackstone quick callback]', { name: trimmedName, phone: trimmedPhone });
+    await new Promise(r => setTimeout(r, 900));
+    setState('sent');
+  };
+
+  if (state === 'sent') {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="relative mb-12 md:mb-16 p-6 md:p-8 rounded-md border border-bs-gold/40 bg-gradient-to-r from-bs-gold/[0.08] via-bs-gold/[0.04] to-transparent overflow-hidden"
+      >
+        <div className="flex items-start gap-4">
+          <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-bs-gold text-bs-black shrink-0">
+            <Check size={18} strokeWidth={2} />
+          </span>
+          <div>
+            <p className="font-display italic text-xl md:text-2xl text-bs-bone leading-tight mb-1">
+              Got it, {name.trim().split(' ')[0]}.
+            </p>
+            <p className="font-sans text-sm text-bs-bone/70">
+              We'll call you on <span className="text-bs-gold font-mono">{phone}</span> within one
+              working day. If you'd like to leave more detail, fill the panel below.
+            </p>
+          </div>
+        </div>
+      </motion.div>
+    );
+  }
+
+  const sending = state === 'sending';
+
+  return (
+    <form
+      onSubmit={send}
+      className="relative mb-12 md:mb-16 rounded-md border border-bs-gold/30 bg-gradient-to-br from-bs-gold/[0.06] via-bs-ink to-bs-ink overflow-hidden"
+    >
+      {/* Decorative left accent — the "emergency call" stripe */}
+      <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-bs-gold via-bs-champagne to-bs-gold" />
+
+      <div className="p-5 md:p-7 lg:p-8 grid md:grid-cols-[auto_1fr_1fr_auto] gap-4 md:gap-5 items-end">
+        {/* Pitch */}
+        <div className="md:max-w-[220px]">
+          <div className="flex items-center gap-2 mb-2">
+            <PhoneCall size={14} strokeWidth={1.5} className="text-bs-gold" />
+            <span className="font-mono text-[10px] uppercase tracking-widest-plus text-bs-gold">
+              Or just call me
+            </span>
+          </div>
+          <p className="font-display italic text-xl md:text-2xl text-bs-bone leading-tight">
+            We'll ring you back.
+          </p>
+          <p className="hidden md:block font-sans text-[12px] text-bs-bone/55 mt-1">
+            No form. Name + phone, that's it.
+          </p>
+        </div>
+
+        {/* Name */}
+        <label className="block">
+          <span className="block font-mono text-[9px] uppercase tracking-widest text-bs-bone/50 mb-1.5">Your name</span>
+          <input
+            value={name}
+            onChange={e => setName(e.target.value)}
+            disabled={sending}
+            placeholder="Infant Savio"
+            className="w-full bg-bs-black/60 border border-bs-shaft rounded-sm px-3 py-3 text-bs-bone placeholder:text-bs-bone/25 focus:outline-none focus:border-bs-gold transition-colors"
+          />
+        </label>
+
+        {/* Phone */}
+        <label className="block">
+          <span className="block font-mono text-[9px] uppercase tracking-widest text-bs-bone/50 mb-1.5">Phone</span>
+          <input
+            value={phone}
+            onChange={e => setPhone(e.target.value)}
+            disabled={sending}
+            type="tel"
+            inputMode="tel"
+            placeholder="+91 …"
+            className="w-full bg-bs-black/60 border border-bs-shaft rounded-sm px-3 py-3 text-bs-bone placeholder:text-bs-bone/25 focus:outline-none focus:border-bs-gold transition-colors"
+          />
+        </label>
+
+        {/* CTA */}
+        <button
+          type="submit"
+          disabled={sending}
+          className="group relative overflow-hidden h-[46px] px-6 rounded-sm bg-bs-gold text-bs-black font-mono text-[10px] uppercase tracking-widest-plus font-bold hover:bg-bs-champagne transition-colors disabled:opacity-60 flex items-center justify-center gap-2 whitespace-nowrap"
+        >
+          {sending ? (
+            <>
+              <motion.span
+                animate={{ rotate: 360 }}
+                transition={{ duration: 0.9, repeat: Infinity, ease: 'linear' }}
+                className="inline-block w-3 h-3 border-2 border-bs-black/40 border-t-bs-black rounded-full"
+              />
+              Sending
+            </>
+          ) : (
+            <>
+              <Phone size={12} strokeWidth={2} />
+              Call me back
+            </>
+          )}
+        </button>
+      </div>
+
+      {err && (
+        <p className="px-5 md:px-7 lg:px-8 pb-4 font-mono text-[10px] uppercase tracking-widest text-bs-ember">
+          {err}
+        </p>
+      )}
+
+      {/* Divider with caption */}
+      <div className="border-t border-bs-shaft/60 px-5 md:px-7 lg:px-8 py-2.5 flex items-center gap-3">
+        <span className="h-px flex-1 bg-bs-shaft/60" />
+        <span className="font-mono text-[9px] uppercase tracking-widest text-bs-bone/40">
+          Or fill the full panel below for a detailed quote
+        </span>
+        <span className="h-px flex-1 bg-bs-shaft/60" />
+      </div>
+    </form>
   );
 }
 

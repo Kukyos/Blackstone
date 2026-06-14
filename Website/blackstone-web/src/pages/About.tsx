@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Award, Building2, Users, Calendar, MapPin } from 'lucide-react';
 import PageShell from '@/components/PageShell';
+// A real Blackstone install — anchors the story with the actual workmanship.
+import installHero from '@/assets/installations/modern-home-vestibule.jpg';
 
 const STATS = [
   { value: '2019',     label: 'Established',           icon: Calendar },
@@ -77,6 +79,27 @@ export default function About() {
           </motion.div>
         ))}
       </section>
+
+      {/* Workshop / install image band — proves the work */}
+      <motion.figure
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-80px' }}
+        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+        className="relative mb-32 md:mb-40 -mx-6 md:-mx-12 lg:-mx-20"
+      >
+        <div className="aspect-[16/8] md:aspect-[16/6] overflow-hidden">
+          <img
+            src={installHero}
+            alt="Recent Blackstone residential install — Chennai"
+            loading="lazy"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <figcaption className="absolute bottom-4 md:bottom-6 left-6 md:left-12 lg:left-20 font-mono text-[10px] uppercase tracking-widest-plus text-bs-bone bg-bs-black/70 backdrop-blur-sm px-3 py-1.5 rounded-sm border border-bs-gold/30">
+          Residential install · Chennai
+        </figcaption>
+      </motion.figure>
 
       {/* Narrative block */}
       <section className="grid md:grid-cols-12 gap-8 md:gap-16 mb-32 md:mb-40">

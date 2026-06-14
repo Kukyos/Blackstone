@@ -4,7 +4,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import ScrollToTop from '@/components/ScrollToTop';
 import Home from '@/pages/Home';
-import Placeholder from '@/pages/Placeholder';
+import Models from '@/pages/Models';
 import Services from '@/pages/Services';
 import About from '@/pages/About';
 import FAQ from '@/pages/FAQ';
@@ -20,7 +20,7 @@ export default function App() {
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Home />} />
-            <Route path="/models"   element={<Placeholder eyebrow="Our Lineup" title="Models — coming soon" />} />
+            <Route path="/models"   element={<Models />} />
             <Route path="/services" element={<Services />} />
             <Route path="/about"    element={<About />} />
             <Route path="/faq"      element={<FAQ />} />

@@ -43,3 +43,7 @@ coverage/
 
 # ── Sibling project — not part of Blackstone ───────────────────────
 formfill-assist/
+
+# ── Raw source media (curated copies live in src/assets/installations) ──
+Website/media/
+Website/Media/
